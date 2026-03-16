@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:crxjs.dev)",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:wxt.dev)",
+      "WebFetch(domain:vite-plugin-web-extension.aklinker1.io)",
+      "Bash(npx wxt@latest init . --template vue 2>&1)",
+      "Bash(which pnpm:*)",
+      "Bash(nvm ls:*)",
+      "Read(//Users/cl/.nvm/versions/node/**)",
+      "Bash(export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm use v20.19.1 && echo \"YES\" | npx wxt@latest init . --template vue --pm pnpm 2>&1)",
+      "Bash(cp -r /tmp/wxt-init/* /tmp/wxt-init/.* /Users/cl/chromeExtends/cfly-space/ 2>/dev/null; ls -la /Users/cl/chromeExtends/cfly-space/)",
+      "Bash(pnpm run:*)",
+      "Bash(grep -r \"chrome\" /Users/cl/chromeExtends/cfly-space/node_modules/wxt/dist/*.d.ts 2>/dev/null | head -5; ls /Users/cl/chromeExtends/cfly-space/node_modules/@types/ 2>/dev/null | head -10)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(node --version && which nvm 2>/dev/null; source ~/.nvm/nvm.sh 2>/dev/null && nvm ls 2>/dev/null | head -10)",
+      "Bash(source ~/.nvm/nvm.sh && nvm ls --no-colors 2>/dev/null | grep -E \"v[0-9]\")",
+      "Bash(source ~/.nvm/nvm.sh && nvm use v20.19.1 && pnpm dev 2>&1)"
+    ]
+  }
+}
