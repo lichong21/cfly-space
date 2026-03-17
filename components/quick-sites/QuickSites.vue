@@ -146,6 +146,7 @@ function getDomain(url: string): string {
     return url;
   }
 }
+
 </script>
 
 <template>
@@ -224,8 +225,10 @@ function getDomain(url: string): string {
                   :style="{ background: initialBg(site.name) }"
                 >{{ getInitial(site.name) }}</span>
               </div>
-              <div class="site-name">{{ site.name }}</div>
-              <div class="site-domain">{{ getDomain(site.url) }}</div>
+              <div class="site-info">
+                <div class="site-name">{{ site.name }}</div>
+                <div class="site-domain">{{ getDomain(site.url) }}</div>
+              </div>
             </div>
           </div>
         </template>
@@ -303,7 +306,9 @@ function getDomain(url: string): string {
 <style scoped>
 .quick-sites {
   padding: 28px 32px;
-  max-width: 720px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* ---- Header ---- */
@@ -374,7 +379,7 @@ function getDomain(url: string): string {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 80px 20px;
   color: #9ca3af;
 }
 
@@ -390,7 +395,7 @@ function getDomain(url: string): string {
 
 /* ---- Groups ---- */
 .group {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .group-header {
@@ -398,6 +403,8 @@ function getDomain(url: string): string {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .group-toggle {
@@ -475,33 +482,33 @@ function getDomain(url: string): string {
 /* ---- Site Grid ---- */
 .site-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
 }
 
 .site-card {
   position: relative;
   background: #fff;
-  border: 1px solid #f3f4f6;
+  border: 1px solid #f0f0f0;
   border-radius: 8px;
-  padding: 16px 12px;
+  padding: 10px 12px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .site-card:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-color: #e5e7eb;
+  border-color: #d1d5db;
 }
 
 .card-actions {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 4px;
+  right: 4px;
   display: flex;
   gap: 2px;
   opacity: 0;
@@ -513,7 +520,7 @@ function getDomain(url: string): string {
 }
 
 .card-action-btn {
-  background: none;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
   cursor: pointer;
   font-size: 11px;
@@ -523,6 +530,10 @@ function getDomain(url: string): string {
 
 .card-action-btn:hover {
   background: #f3f4f6;
+}
+
+.site-favicon {
+  flex-shrink: 0;
 }
 
 .site-favicon img {
@@ -542,25 +553,26 @@ function getDomain(url: string): string {
   font-weight: 600;
 }
 
+.site-info {
+  min-width: 0;
+  flex: 1;
+}
+
 .site-name {
   font-size: 13px;
   font-weight: 500;
   color: #374151;
-  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100%;
 }
 
 .site-domain {
   font-size: 11px;
   color: #9ca3af;
-  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100%;
 }
 
 /* ---- Modal ---- */

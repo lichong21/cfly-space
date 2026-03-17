@@ -21,7 +21,13 @@
       "Bash(pnpm dev:*)",
       "Bash(node --version && which nvm 2>/dev/null; source ~/.nvm/nvm.sh 2>/dev/null && nvm ls 2>/dev/null | head -10)",
       "Bash(source ~/.nvm/nvm.sh && nvm ls --no-colors 2>/dev/null | grep -E \"v[0-9]\")",
-      "Bash(source ~/.nvm/nvm.sh && nvm use v20.19.1 && pnpm dev 2>&1)"
+      "Bash(source ~/.nvm/nvm.sh && nvm use v20.19.1 && pnpm dev 2>&1)",
+      "Bash(pnpm compile:*)",
+      "Bash(cd /Users/cl/chromeExtends/cfly-space/components && mv JsonFormatter.vue json/ && mv JsonTreeNode.vue json/ && mv QuickSites.vue quick-sites/ && mv WaterReminder.vue water-reminder/ && mv TabBar.vue common/)",
+      "Bash(cd /Users/cl/chromeExtends/cfly-space && npx wxt build 2>&1 | tail -20)",
+      "Bash(npx vue-tsc:*)",
+      "WebFetch(domain:milkdown.dev)",
+      "Bash(npm install:*)"
     ]
   }
 }

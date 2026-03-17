@@ -15,11 +15,18 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
+    "@milkdown/kit": "^7.19.0",
+    "@milkdown/plugin-prism": "^7.19.0",
+    "@milkdown/vue": "^7.19.0",
+    "@prosemirror-adapter/vue": "^0.4.6",
     "pinia": "^3.0.2",
+    "prismjs": "^1.30.0",
+    "refractor": "^5.0.0",
     "vue": "^3.5.29"
   },
   "devDependencies": {
     "@types/chrome": "^0.1.37",
+    "@types/prismjs": "^1.26.6",
     "@unocss/preset-uno": "^66.1.1",
     "@wxt-dev/module-vue": "^1.0.3",
     "typescript": "^5.9.3",

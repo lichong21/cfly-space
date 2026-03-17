@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import JsonFormatter from '@/components/JsonFormatter.vue';
-import WaterReminder from '@/components/WaterReminder.vue';
-import QuickSites from '@/components/QuickSites.vue';
+import JsonFormatter from '@/components/json/JsonFormatter.vue';
+import WaterReminder from '@/components/water-reminder/WaterReminder.vue';
+import QuickSites from '@/components/quick-sites/QuickSites.vue';
+import MarkdownEditor from '@/components/markdown/MarkdownEditor.vue';
 
 const activeTab = ref(location.hash.slice(1) || 'json');
 
@@ -10,6 +11,7 @@ const navItems = [
   { key: 'json', label: 'JSON 格式化', icon: '{ }' },
   { key: 'timestamp', label: '时间戳转换', icon: '⏱', disabled: true },
   { key: 'water', label: '喝水提醒', icon: '💧' },
+  { key: 'markdown', label: 'Markdown', icon: '📝' },
 ];
 
 const quickNavItems = [
@@ -64,6 +66,7 @@ const quickNavItems = [
       <JsonFormatter v-if="activeTab === 'json'" />
       <WaterReminder v-else-if="activeTab === 'water'" />
       <QuickSites v-else-if="activeTab === 'quicksites'" />
+      <MarkdownEditor v-else-if="activeTab === 'markdown'" />
       <div v-else class="placeholder">即将推出...</div>
     </main>
   </div>
