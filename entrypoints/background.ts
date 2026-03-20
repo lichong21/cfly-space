@@ -3,6 +3,12 @@ import { DEFAULT_WATER_CONFIG, DEFAULT_WATER_STATE } from '@/types/water';
 
 const MENU_PARENT_ID = 'cfly-space';
 const MENU_JSON_ID = 'cfly-space-json';
+const MENU_TIMESTAMP_ID = 'cfly-space-timestamp';
+const MENU_ENCODE_ID = 'cfly-space-encode';
+const MENU_REGEX_ID = 'cfly-space-regex';
+const MENU_UUID_ID = 'cfly-space-uuid';
+const MENU_DIFF_ID = 'cfly-space-diff';
+const MENU_COLOR_ID = 'cfly-space-color';
 
 const ALARM_NAME = 'water-reminder';
 const ALARM_ENHANCED = 'water-reminder-enhanced';
@@ -112,12 +118,57 @@ export default defineBackground(() => {
       title: 'JSON 格式化',
       contexts: ['all'],
     });
+    chrome.contextMenus.create({
+      id: MENU_TIMESTAMP_ID,
+      parentId: MENU_PARENT_ID,
+      title: '时间戳转换',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_ENCODE_ID,
+      parentId: MENU_PARENT_ID,
+      title: '编码 / 解码',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_REGEX_ID,
+      parentId: MENU_PARENT_ID,
+      title: '正则测试器',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_UUID_ID,
+      parentId: MENU_PARENT_ID,
+      title: 'UUID / 随机',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_DIFF_ID,
+      parentId: MENU_PARENT_ID,
+      title: 'Diff 对比',
+      contexts: ['all'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_COLOR_ID,
+      parentId: MENU_PARENT_ID,
+      title: '颜色工具',
+      contexts: ['all'],
+    });
   });
 
   chrome.contextMenus.onClicked.addListener((info) => {
-    if (info.menuItemId === MENU_JSON_ID) {
-      // 打开 options 页面并定位到 JSON 格式化标签
-      chrome.tabs.create({ url: chrome.runtime.getURL('/options.html#json') });
+    const menuMap: Record<string, string> = {
+      [MENU_JSON_ID]: 'json',
+      [MENU_TIMESTAMP_ID]: 'timestamp',
+      [MENU_ENCODE_ID]: 'encode',
+      [MENU_REGEX_ID]: 'regex',
+      [MENU_UUID_ID]: 'uuid',
+      [MENU_DIFF_ID]: 'diff',
+      [MENU_COLOR_ID]: 'color',
+    };
+    const tab = menuMap[info.menuItemId as string];
+    if (tab) {
+      chrome.tabs.create({ url: chrome.runtime.getURL(`/options.html#${tab}`) });
     }
   });
 

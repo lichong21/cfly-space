@@ -4,7 +4,15 @@ import type { WaterStatus } from '@/types/water';
 
 const tools = [
   { key: 'json', label: 'JSON 格式化', icon: '{ }', ready: true },
-  { key: 'timestamp', label: '时间戳转换', icon: '⏱', ready: false },
+  { key: 'timestamp', label: '时间戳转换', icon: '⏱', ready: true },
+  { key: 'encode', label: '编码 / 解码', icon: '🔄', ready: true },
+  { key: 'regex', label: '正则测试器', icon: '.*', ready: true },
+  { key: 'uuid', label: 'UUID / 随机', icon: '🎲', ready: true },
+  { key: 'diff', label: 'Diff 对比', icon: '⇄', ready: true },
+  { key: 'color', label: '颜色工具', icon: '🎨', ready: true },
+  { key: 'snippet', label: '代码片段', icon: '✂', ready: true },
+  { key: 'httpstatus', label: 'HTTP 状态码', icon: '🌐', ready: true },
+  { key: 'ruler', label: '页面标尺', icon: '📐', ready: true },
   { key: 'water', label: '喝水提醒', icon: '💧', ready: true },
 ];
 

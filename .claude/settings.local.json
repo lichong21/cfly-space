@@ -27,7 +27,20 @@
       "Bash(cd /Users/cl/chromeExtends/cfly-space && npx wxt build 2>&1 | tail -20)",
       "Bash(npx vue-tsc:*)",
       "WebFetch(domain:milkdown.dev)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:tool.lu)",
+      "WebFetch(domain:www.bejson.com)",
+      "WebFetch(domain:tooltt.com)",
+      "WebFetch(domain:www.unixtimestamp.com)",
+      "WebFetch(domain:timestamp.online)",
+      "WebFetch(domain:www.epochconverter.com)",
+      "Bash(./node_modules/.bin/vue-tsc --noEmit 2>&1)",
+      "Bash(node ./node_modules/.bin/vue-tsc --noEmit 2>&1)",
+      "Bash(node node_modules/vue-tsc/bin/vue-tsc.js --noEmit 2>&1)",
+      "Bash(/Users/cl/chromeExtends/cfly-space/node_modules/.pnpm/vue-tsc@2.2.8_typescript@5.7.3/node_modules/.bin/vue-tsc --noEmit 2>&1)",
+      "Bash(node /Users/cl/chromeExtends/cfly-space/node_modules/.pnpm/vue-tsc@3.2.5_typescript@5.9.3/node_modules/vue-tsc/bin/vue-tsc.js --noEmit 2>&1)",
+      "Bash(find /Users/cl/chromeExtends/cfly-space/components -name '*.vue' -newer /Users/cl/chromeExtends/cfly-space/components/water-reminder/WaterReminder.vue | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/types -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/types/water.ts | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/stores -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/stores/water.ts | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/composables -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/composables/useCopy.ts | sort 2>/dev/null)"
     ]
   }
 }

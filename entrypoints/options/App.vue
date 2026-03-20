@@ -1,15 +1,34 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import JsonFormatter from '@/components/json/JsonFormatter.vue';
+import TimestampConverter from '@/components/timestamp/TimestampConverter.vue';
+import EncodeDecode from '@/components/encode-decode/EncodeDecode.vue';
+import RegexTester from '@/components/regex/RegexTester.vue';
+import UuidGenerator from '@/components/uuid-generator/UuidGenerator.vue';
+import DiffTool from '@/components/diff/DiffTool.vue';
+import ColorTool from '@/components/color/ColorTool.vue';
+import SnippetManager from '@/components/snippet/SnippetManager.vue';
+import ClipboardHistory from '@/components/clipboard/ClipboardHistory.vue';
+import HttpStatusRef from '@/components/http-status/HttpStatusRef.vue';
+import PageRuler from '@/components/page-ruler/PageRuler.vue';
 import WaterReminder from '@/components/water-reminder/WaterReminder.vue';
 import QuickSites from '@/components/quick-sites/QuickSites.vue';
 import MarkdownEditor from '@/components/markdown/MarkdownEditor.vue';
 
 const activeTab = ref(location.hash.slice(1) || 'json');
 
-const navItems = [
+const navItems: Array<{ key: string; label: string; icon: string; disabled?: boolean }> = [
   { key: 'json', label: 'JSON 格式化', icon: '{ }' },
-  { key: 'timestamp', label: '时间戳转换', icon: '⏱', disabled: true },
+  { key: 'timestamp', label: '时间戳转换', icon: '⏱' },
+  { key: 'encode', label: '编码 / 解码', icon: '🔄' },
+  { key: 'regex', label: '正则测试器', icon: '.*' },
+  { key: 'uuid', label: 'UUID / 随机', icon: '🎲' },
+  { key: 'diff', label: 'Diff 对比', icon: '⇄' },
+  { key: 'color', label: '颜色工具', icon: '🎨' },
+  { key: 'snippet', label: '代码片段', icon: '✂' },
+  { key: 'clipboard', label: '剪贴板历史', icon: '📋' },
+  { key: 'httpstatus', label: 'HTTP 状态码', icon: '🌐' },
+  { key: 'ruler', label: '页面标尺', icon: '📐' },
   { key: 'water', label: '喝水提醒', icon: '💧' },
   { key: 'markdown', label: 'Markdown', icon: '📝' },
 ];
@@ -64,6 +83,16 @@ const quickNavItems = [
     <!-- Main -->
     <main class="main">
       <JsonFormatter v-if="activeTab === 'json'" />
+      <TimestampConverter v-else-if="activeTab === 'timestamp'" />
+      <EncodeDecode v-else-if="activeTab === 'encode'" />
+      <RegexTester v-else-if="activeTab === 'regex'" />
+      <UuidGenerator v-else-if="activeTab === 'uuid'" />
+      <DiffTool v-else-if="activeTab === 'diff'" />
+      <ColorTool v-else-if="activeTab === 'color'" />
+      <SnippetManager v-else-if="activeTab === 'snippet'" />
+      <ClipboardHistory v-else-if="activeTab === 'clipboard'" />
+      <HttpStatusRef v-else-if="activeTab === 'httpstatus'" />
+      <PageRuler v-else-if="activeTab === 'ruler'" />
       <WaterReminder v-else-if="activeTab === 'water'" />
       <QuickSites v-else-if="activeTab === 'quicksites'" />
       <MarkdownEditor v-else-if="activeTab === 'markdown'" />
@@ -118,6 +147,7 @@ const quickNavItems = [
 .sidebar-nav {
   flex: 1;
   padding: 12px 10px;
+  overflow-y: auto;
 }
 
 .nav-section {
