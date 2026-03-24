@@ -1,46 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch",
-      "WebFetch(domain:www.npmjs.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:crxjs.dev)",
-      "WebFetch(domain:registry.npmjs.org)",
-      "WebFetch(domain:wxt.dev)",
-      "WebFetch(domain:vite-plugin-web-extension.aklinker1.io)",
-      "Bash(npx wxt@latest init . --template vue 2>&1)",
-      "Bash(which pnpm:*)",
-      "Bash(nvm ls:*)",
-      "Read(//Users/cl/.nvm/versions/node/**)",
-      "Bash(export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm use v20.19.1 && echo \"YES\" | npx wxt@latest init . --template vue --pm pnpm 2>&1)",
-      "Bash(cp -r /tmp/wxt-init/* /tmp/wxt-init/.* /Users/cl/chromeExtends/cfly-space/ 2>/dev/null; ls -la /Users/cl/chromeExtends/cfly-space/)",
-      "Bash(pnpm run:*)",
-      "Bash(grep -r \"chrome\" /Users/cl/chromeExtends/cfly-space/node_modules/wxt/dist/*.d.ts 2>/dev/null | head -5; ls /Users/cl/chromeExtends/cfly-space/node_modules/@types/ 2>/dev/null | head -10)",
-      "Bash(pnpm add:*)",
-      "Bash(pnpm build:*)",
-      "Bash(pnpm dev:*)",
-      "Bash(node --version && which nvm 2>/dev/null; source ~/.nvm/nvm.sh 2>/dev/null && nvm ls 2>/dev/null | head -10)",
-      "Bash(source ~/.nvm/nvm.sh && nvm ls --no-colors 2>/dev/null | grep -E \"v[0-9]\")",
-      "Bash(source ~/.nvm/nvm.sh && nvm use v20.19.1 && pnpm dev 2>&1)",
-      "Bash(pnpm compile:*)",
-      "Bash(cd /Users/cl/chromeExtends/cfly-space/components && mv JsonFormatter.vue json/ && mv JsonTreeNode.vue json/ && mv QuickSites.vue quick-sites/ && mv WaterReminder.vue water-reminder/ && mv TabBar.vue common/)",
-      "Bash(cd /Users/cl/chromeExtends/cfly-space && npx wxt build 2>&1 | tail -20)",
-      "Bash(npx vue-tsc:*)",
-      "WebFetch(domain:milkdown.dev)",
-      "Bash(npm install:*)",
-      "Bash(git commit:*)",
-      "WebFetch(domain:tool.lu)",
-      "WebFetch(domain:www.bejson.com)",
-      "WebFetch(domain:tooltt.com)",
-      "WebFetch(domain:www.unixtimestamp.com)",
-      "WebFetch(domain:timestamp.online)",
-      "WebFetch(domain:www.epochconverter.com)",
-      "Bash(./node_modules/.bin/vue-tsc --noEmit 2>&1)",
-      "Bash(node ./node_modules/.bin/vue-tsc --noEmit 2>&1)",
-      "Bash(node node_modules/vue-tsc/bin/vue-tsc.js --noEmit 2>&1)",
-      "Bash(/Users/cl/chromeExtends/cfly-space/node_modules/.pnpm/vue-tsc@2.2.8_typescript@5.7.3/node_modules/.bin/vue-tsc --noEmit 2>&1)",
-      "Bash(node /Users/cl/chromeExtends/cfly-space/node_modules/.pnpm/vue-tsc@3.2.5_typescript@5.9.3/node_modules/vue-tsc/bin/vue-tsc.js --noEmit 2>&1)",
-      "Bash(find /Users/cl/chromeExtends/cfly-space/components -name '*.vue' -newer /Users/cl/chromeExtends/cfly-space/components/water-reminder/WaterReminder.vue | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/types -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/types/water.ts | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/stores -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/stores/water.ts | sort 2>/dev/null; echo \"---\"; find /Users/cl/chromeExtends/cfly-space/composables -name '*.ts' -newer /Users/cl/chromeExtends/cfly-space/composables/useCopy.ts | sort 2>/dev/null)"
+      "Read(./**)",               // 读取所有文件
+      "Edit(./**)",               // 编辑所有文件
+      "Bash(npm *)",              // 所有 npm 命令
+      "Bash(git *)",              // 所有 git 命令
+      "Bash(ls *)",               // 文件操作
+      "Bash(cp *)",               // 复制
+      "Bash(mv *)",            // 移动/重命名
+      "WebFetch(*)"       // 网络请求前确认
+    ],
+    "ask": [
+      "Bash(rm -rf *)",           // 递归删除前确认
+      "Bash(sudo *)"            // sudo 权限前确认      
     ]
   }
 }

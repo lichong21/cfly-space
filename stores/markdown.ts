@@ -8,6 +8,7 @@ const STORAGE_KEY = 'markdown';
 export const useMarkdownStore = defineStore('markdown', () => {
   const notes = ref<Note[]>([]);
   const activeNoteId = ref<string | null>(null);
+  const initialized = ref(false);
 
   const activeNote = computed(() =>
     notes.value.find(n => n.id === activeNoteId.value) ?? null,
@@ -17,19 +18,27 @@ export const useMarkdownStore = defineStore('markdown', () => {
     [...notes.value].sort((a, b) => b.updatedAt - a.updatedAt),
   );
 
-  // Restore from chrome.storage
-  if (typeof chrome !== 'undefined' && chrome.storage) {
-    chrome.storage.local.get([STORAGE_KEY], (result) => {
-      if (result[STORAGE_KEY]) {
-        const saved = result[STORAGE_KEY] as MarkdownState;
-        notes.value = saved.notes || [];
-        activeNoteId.value = saved.activeNoteId;
-      }
-    });
-  }
+  // Restore from chrome.storage (promise-based)
+  const initPromise = new Promise<void>((resolve) => {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.local.get([STORAGE_KEY], (result) => {
+        if (result[STORAGE_KEY]) {
+          const saved = result[STORAGE_KEY] as MarkdownState;
+          notes.value = saved.notes || [];
+          activeNoteId.value = saved.activeNoteId;
+        }
+        initialized.value = true;
+        resolve();
+      });
+    } else {
+      initialized.value = true;
+      resolve();
+    }
+  });
 
-  // Persist changes
+  // Persist changes — only after initialization to avoid overwriting stored data
   watch([notes, activeNoteId], () => {
+    if (!initialized.value) return;
     if (typeof chrome !== 'undefined' && chrome.storage) {
       const data: MarkdownState = {
         notes: notes.value,
@@ -87,6 +96,8 @@ export const useMarkdownStore = defineStore('markdown', () => {
     activeNoteId,
     activeNote,
     sortedNotes,
+    initialized,
+    initPromise,
     createNote,
     updateNoteContent,
     updateNoteTitle,

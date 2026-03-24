@@ -1,40 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import JsonFormatter from '@/components/json/JsonFormatter.vue';
-import TimestampConverter from '@/components/timestamp/TimestampConverter.vue';
-import EncodeDecode from '@/components/encode-decode/EncodeDecode.vue';
-import RegexTester from '@/components/regex/RegexTester.vue';
-import UuidGenerator from '@/components/uuid-generator/UuidGenerator.vue';
-import DiffTool from '@/components/diff/DiffTool.vue';
-import ColorTool from '@/components/color/ColorTool.vue';
-import SnippetManager from '@/components/snippet/SnippetManager.vue';
-import ClipboardHistory from '@/components/clipboard/ClipboardHistory.vue';
-import HttpStatusRef from '@/components/http-status/HttpStatusRef.vue';
-import PageRuler from '@/components/page-ruler/PageRuler.vue';
-import WaterReminder from '@/components/water-reminder/WaterReminder.vue';
-import QuickSites from '@/components/quick-sites/QuickSites.vue';
 import MarkdownEditor from '@/components/markdown/MarkdownEditor.vue';
 
 const activeTab = ref(location.hash.slice(1) || 'json');
 
-const navItems: Array<{ key: string; label: string; icon: string; disabled?: boolean }> = [
+const navItems = [
   { key: 'json', label: 'JSON 格式化', icon: '{ }' },
-  { key: 'timestamp', label: '时间戳转换', icon: '⏱' },
-  { key: 'encode', label: '编码 / 解码', icon: '🔄' },
-  { key: 'regex', label: '正则测试器', icon: '.*' },
-  { key: 'uuid', label: 'UUID / 随机', icon: '🎲' },
-  { key: 'diff', label: 'Diff 对比', icon: '⇄' },
-  { key: 'color', label: '颜色工具', icon: '🎨' },
-  { key: 'snippet', label: '代码片段', icon: '✂' },
-  { key: 'clipboard', label: '剪贴板历史', icon: '📋' },
-  { key: 'httpstatus', label: 'HTTP 状态码', icon: '🌐' },
-  { key: 'ruler', label: '页面标尺', icon: '📐' },
-  { key: 'water', label: '喝水提醒', icon: '💧' },
   { key: 'markdown', label: 'Markdown', icon: '📝' },
-];
-
-const quickNavItems = [
-  { key: 'quicksites', label: '常用网站', icon: '🌐' },
 ];
 </script>
 
@@ -53,20 +26,6 @@ const quickNavItems = [
           v-for="item in navItems"
           :key="item.key"
           class="nav-item"
-          :class="{ active: activeTab === item.key, disabled: item.disabled }"
-          :disabled="item.disabled"
-          @click="activeTab = item.key"
-        >
-          <span class="nav-icon">{{ item.icon }}</span>
-          <span class="nav-label">{{ item.label }}</span>
-          <span v-if="item.disabled" class="nav-badge">Soon</span>
-        </button>
-
-        <div class="nav-section">快捷入口</div>
-        <button
-          v-for="item in quickNavItems"
-          :key="item.key"
-          class="nav-item"
           :class="{ active: activeTab === item.key }"
           @click="activeTab = item.key"
         >
@@ -83,20 +42,7 @@ const quickNavItems = [
     <!-- Main -->
     <main class="main">
       <JsonFormatter v-if="activeTab === 'json'" />
-      <TimestampConverter v-else-if="activeTab === 'timestamp'" />
-      <EncodeDecode v-else-if="activeTab === 'encode'" />
-      <RegexTester v-else-if="activeTab === 'regex'" />
-      <UuidGenerator v-else-if="activeTab === 'uuid'" />
-      <DiffTool v-else-if="activeTab === 'diff'" />
-      <ColorTool v-else-if="activeTab === 'color'" />
-      <SnippetManager v-else-if="activeTab === 'snippet'" />
-      <ClipboardHistory v-else-if="activeTab === 'clipboard'" />
-      <HttpStatusRef v-else-if="activeTab === 'httpstatus'" />
-      <PageRuler v-else-if="activeTab === 'ruler'" />
-      <WaterReminder v-else-if="activeTab === 'water'" />
-      <QuickSites v-else-if="activeTab === 'quicksites'" />
       <MarkdownEditor v-else-if="activeTab === 'markdown'" />
-      <div v-else class="placeholder">即将推出...</div>
     </main>
   </div>
 </template>
@@ -176,7 +122,7 @@ const quickNavItems = [
   margin-bottom: 2px;
 }
 
-.nav-item:hover:not(.disabled) {
+.nav-item:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
@@ -190,11 +136,6 @@ const quickNavItems = [
   color: #667eea;
 }
 
-.nav-item.disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
 .nav-icon {
   width: 22px;
   text-align: center;
@@ -204,16 +145,6 @@ const quickNavItems = [
 
 .nav-label {
   flex: 1;
-}
-
-.nav-badge {
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .sidebar-footer {
@@ -233,14 +164,5 @@ const quickNavItems = [
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
-}
-
-.placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #9ca3af;
-  font-size: 16px;
 }
 </style>

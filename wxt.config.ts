@@ -6,8 +6,8 @@ export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
   manifest: {
     name: 'CFly Space',
-    description: '浏览器办公辅助插件 - JSON格式化、时间戳转换、喝水提醒',
-    permissions: ['storage', 'alarms', 'notifications', 'contextMenus'],
+    description: '浏览器办公辅助插件 - JSON格式化、Markdown编辑器',
+    permissions: ['storage', 'contextMenus'],
   },
   vite: () => ({
     plugins: [UnoCSS()],

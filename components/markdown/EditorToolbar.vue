@@ -6,7 +6,7 @@ import { useMarkdownStore } from '@/stores/markdown';
 
 const store = useMarkdownStore();
 const { copied, copyMarkdown, exportMarkdown, exportHtml } = useMarkdownExport();
-const { openFile, saveFile, saveFileAs, fileName } = useMarkdownFile();
+const { openFile, saveFile, fileName } = useMarkdownFile();
 
 const wordCount = computed(() => {
   if (!store.activeNote) return 0;
@@ -26,14 +26,9 @@ async function handleOpen() {
   }
 }
 
-async function handleSave() {
+function handleSave() {
   if (!store.activeNote) return;
-  await saveFile(store.activeNote.content);
-}
-
-async function handleSaveAs() {
-  if (!store.activeNote) return;
-  await saveFileAs(store.activeNote.content, `${store.activeNote.title}.md`);
+  saveFile(store.activeNote.content, `${store.activeNote.title}.md`);
 }
 
 function handleCopy() {
@@ -64,10 +59,6 @@ function handleExportHtml() {
       <button class="toolbar-btn" title="保存文件" :disabled="!store.activeNote" @click="handleSave">
         <span class="toolbar-icon">💾</span>
         <span class="toolbar-text">保存</span>
-      </button>
-      <button class="toolbar-btn" title="另存为" :disabled="!store.activeNote" @click="handleSaveAs">
-        <span class="toolbar-icon">📄</span>
-        <span class="toolbar-text">另存为</span>
       </button>
 
       <div class="toolbar-divider" />

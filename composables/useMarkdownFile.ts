@@ -1,65 +1,39 @@
 import { ref } from 'vue';
 
 export function useMarkdownFile() {
-  const fileHandle = ref<FileSystemFileHandle | null>(null);
   const fileName = ref<string | null>(null);
 
-  async function openFile(): Promise<{ content: string; name: string } | null> {
-    try {
-      const [handle] = await window.showOpenFilePicker({
-        types: [
-          {
-            description: 'Markdown 文件',
-            accept: { 'text/markdown': ['.md', '.markdown'] },
-          },
-        ],
+  function openFile(): Promise<{ content: string; name: string } | null> {
+    return new Promise((resolve) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.md,.markdown,text/markdown';
+      input.addEventListener('change', async () => {
+        const file = input.files?.[0];
+        if (!file) {
+          resolve(null);
+          return;
+        }
+        fileName.value = file.name;
+        const content = await file.text();
+        resolve({ content, name: file.name });
       });
-      fileHandle.value = handle;
-      fileName.value = handle.name;
-      const file = await handle.getFile();
-      const content = await file.text();
-      return { content, name: handle.name };
-    } catch {
-      // User cancelled
-      return null;
-    }
+      // User cancelled (input won't fire change if cancelled, but we handle it gracefully)
+      input.click();
+    });
   }
 
-  async function saveFile(content: string): Promise<boolean> {
-    if (!fileHandle.value) {
-      return saveFileAs(content);
-    }
-    try {
-      const writable = await fileHandle.value.createWritable();
-      await writable.write(content);
-      await writable.close();
-      return true;
-    } catch {
-      return false;
-    }
+  function saveFile(content: string, suggestedName?: string): boolean {
+    const name = suggestedName || fileName.value || 'untitled.md';
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(url);
+    return true;
   }
 
-  async function saveFileAs(content: string, suggestedName?: string): Promise<boolean> {
-    try {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: suggestedName || 'untitled.md',
-        types: [
-          {
-            description: 'Markdown 文件',
-            accept: { 'text/markdown': ['.md'] },
-          },
-        ],
-      });
-      fileHandle.value = handle;
-      fileName.value = handle.name;
-      const writable = await handle.createWritable();
-      await writable.write(content);
-      await writable.close();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  return { fileHandle, fileName, openFile, saveFile, saveFileAs };
+  return { fileName, openFile, saveFile };
 }

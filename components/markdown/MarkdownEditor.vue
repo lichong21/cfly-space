@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, nextTick } from 'vue';
 import { MilkdownProvider } from '@milkdown/vue';
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/vue';
 import { useMarkdownStore } from '@/stores/markdown';
@@ -13,7 +13,8 @@ const store = useMarkdownStore();
 const showNoteList = ref(true);
 const showOutline = ref(true);
 const editorContent = ref('');
-const editorKey = ref(0);
+const editorRef = ref<InstanceType<typeof MilkdownEditor> | null>(null);
+let switchingNote = false;
 
 // Resizable panel widths
 const noteListWidth = ref(220);
@@ -58,24 +59,40 @@ function onResizeEnd() {
   document.body.style.userSelect = '';
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await store.initPromise;
   if (store.notes.length === 0) {
     store.createNote();
+  }
+  if (!store.activeNoteId && store.notes.length > 0) {
+    store.setActiveNote(store.notes[0].id);
   }
 });
 
 watch(
   () => store.activeNote,
-  (note) => {
+  (note, oldNote) => {
     if (note) {
+      switchingNote = true;
       editorContent.value = note.content;
-      editorKey.value++;
+      // If editor already exists, update content in-place instead of remounting
+      if (oldNote && editorRef.value) {
+        nextTick(() => {
+          editorRef.value?.replaceContent(note.content);
+          switchingNote = false;
+        });
+      } else {
+        nextTick(() => {
+          switchingNote = false;
+        });
+      }
     }
   },
   { immediate: true },
 );
 
 function handleContentUpdate(content: string) {
+  if (switchingNote) return;
   editorContent.value = content;
   if (store.activeNoteId) {
     store.updateNoteContent(store.activeNoteId, content);
@@ -116,7 +133,7 @@ function handleContentUpdate(content: string) {
         <MilkdownProvider v-else>
           <ProsemirrorAdapterProvider>
             <MilkdownEditor
-              :key="editorKey"
+              ref="editorRef"
               :model-value="editorContent"
               @update:model-value="handleContentUpdate"
             />

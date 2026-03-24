@@ -1,6 +1,6 @@
 {
   "name": "cfly-space",
-  "description": "浏览器办公辅助插件 - JSON格式化、时间戳转换、喝水提醒",
+  "description": "浏览器办公辅助插件 - JSON格式化、Markdown编辑器",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -31,6 +31,7 @@
     "@wxt-dev/module-vue": "^1.0.3",
     "typescript": "^5.9.3",
     "unocss": "^66.1.1",
+    "vite": "^6.3.4",
     "vue-tsc": "^3.2.5",
     "wxt": "^0.20.18"
   }

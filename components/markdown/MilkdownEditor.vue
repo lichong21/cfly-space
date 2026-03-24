@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { watch } from 'vue';
-import { Editor, rootCtx, defaultValueCtx, editorViewCtx } from '@milkdown/kit/core';
+import { watch, ref } from 'vue';
+import { Editor, rootCtx, defaultValueCtx, editorViewCtx, parserCtx } from '@milkdown/kit/core';
 import { Milkdown, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/kit/preset/commonmark';
 import { gfm } from '@milkdown/kit/preset/gfm';
@@ -20,6 +20,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+// Flag to suppress emitting during external content replacement
+const suppressEmit = ref(false);
+
 const { get } = useEditor((root) =>
   Editor.make()
     .config((ctx) => {
@@ -27,7 +30,9 @@ const { get } = useEditor((root) =>
       ctx.set(defaultValueCtx, props.modelValue);
       ctx.set(prismConfig.key, { configureRefractor: () => refractor });
       ctx.get(listenerCtx).markdownUpdated((_ctx, markdown) => {
-        emit('update:modelValue', markdown);
+        if (!suppressEmit.value) {
+          emit('update:modelValue', markdown);
+        }
       });
     })
     .use(commonmark)
@@ -40,23 +45,29 @@ const { get } = useEditor((root) =>
     .use(prism),
 );
 
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    const editor = get();
-    if (!editor) return;
+/**
+ * Replace editor content when modelValue changes externally (e.g. note switch).
+ */
+function replaceContent(markdown: string) {
+  const editor = get();
+  if (!editor) return;
+  try {
     editor.action((ctx) => {
       const view = ctx.get(editorViewCtx);
-      const currentContent = view.state.doc.textContent;
-      // Only update if content is truly different (avoid cursor reset loops)
-      if (currentContent !== newVal.replace(/[#*_`>\-\[\]|\\~\n]/g, '').trim()) {
-        // We skip external updates when user is typing
-      }
+      const parser = ctx.get(parserCtx);
+      const doc = parser(markdown);
+      if (!doc) return;
+      suppressEmit.value = true;
+      const tr = view.state.tr.replaceWith(0, view.state.doc.content.size, doc.content);
+      view.dispatch(tr);
+      suppressEmit.value = false;
     });
-  },
-);
+  } catch {
+    // Editor not ready yet, ignore
+  }
+}
 
-defineExpose({ get });
+defineExpose({ get, replaceContent });
 </script>
 
 <template>
